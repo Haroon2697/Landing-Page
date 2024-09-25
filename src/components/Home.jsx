@@ -45,6 +45,7 @@ const Home = () => {
             Discover how we can transform your business today.
           </motion.p>
           <motion.button
+            aria-label="Get Started"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 mb-2"
@@ -125,15 +126,13 @@ const Home = () => {
       <section className="py-20">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-8">About Tendtial</h2>
-          <motion.div
-            className="grid md:grid-cols-3 gap-8"
-          >
+          <motion.div className="grid md:grid-cols-3 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
               className="border border-gray-800 p-8 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-opacity-10 hover:shadow-slate-800"
-              >
+            >
               <h3 className="text-xl font-semibold mb-2">Our Mission</h3>
               <p className="text-gray-300">
                 To empower businesses through innovative software solutions.
@@ -144,7 +143,7 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
               className="border border-gray-800 p-8 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-opacity-10 hover:shadow-slate-800"
-              >
+            >
               <h3 className="text-xl font-semibold mb-2">Our Services</h3>
               <ul className="list-disc list-inside text-gray-300">
                 <li>Custom Software Development</li>
@@ -158,7 +157,7 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.9 }}
               className="border border-gray-800 p-8 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-opacity-10 hover:shadow-slate-800"
-              >
+            >
               <h3 className="text-xl font-semibold mb-2">Our Values</h3>
               <p className="text-gray-300">
                 Integrity, Innovation, and Customer Success drive everything we do.
@@ -180,11 +179,12 @@ const Home = () => {
             Ready to Get Started?
           </motion.h2>
           <motion.button
+            aria-label="Contact Us"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 mb-2"
           >
-            Request a Demo
+            Contact Us Today
           </motion.button>
         </div>
       </section>
