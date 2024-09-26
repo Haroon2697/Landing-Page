@@ -16,7 +16,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <a href="/" className="text-2xl sm:text-3xl font-bold text-gray-100">
-              Trendtial
+              Trend<span className="text-2xl sm:text-3xl font-bold text-gray-400" >tial</span>
             </a>
           </div>
           <div className="hidden md:block">
