@@ -40,7 +40,7 @@ export default function About() {
           transition={{ duration: 0.7 }}
           className="text-4xl md:text-6xl font-bold mb-8 text-center"
         >
-          About Tendtial
+          About Trendtial
         </motion.h1>
         
         {/* Subtitle */}
@@ -125,10 +125,10 @@ Your Partner in Pioneering Tech Solutions for the Future
           className="mt-16 text-center"
         >
           <a 
-            href="#contact" 
-            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            href="/contact" 
+            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 mb-2"
           >
-            Get in Touch
+           Get in Touch
           </a>
         </motion.div>
       </div>

@@ -1,4 +1,3 @@
-// src/components/AnimatedCounter.jsx
 import React, { useEffect, useState } from 'react';
 
 const AnimatedCounter = ({ value }) => {
@@ -7,7 +6,7 @@ const AnimatedCounter = ({ value }) => {
   useEffect(() => {
     const startValue = 0;
     const endValue = value;
-    const duration = 2000; // Animation duration in milliseconds
+    const duration = 2000; 
     const incrementTime = (duration / endValue) > 1 ? Math.floor(duration / endValue) : 1;
 
     let current = startValue;
