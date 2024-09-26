@@ -50,7 +50,7 @@ const Home = () => {
             whileTap={{ scale: 0.95 }}
             className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 mb-2"
           >
-            Get Started
+            <a href="/contact">Get Started</a>
           </motion.button>
         </div>
       </section>
