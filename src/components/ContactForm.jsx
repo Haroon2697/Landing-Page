@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm, ValidationError } from '@formspree/react';
+import { useNavigate } from 'react-router-dom';
 
 const ContactForm = () => {
   const [state, handleSubmit] = useForm("mwpegena");
@@ -11,30 +12,27 @@ const ContactForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate(); // Hook to navigate between routes
 
   const validate = () => {
     let tempErrors = {};
-    
-    // Username (name field) validation
+
     if (formData.name.length < 5) {
       tempErrors.name = 'Name must be more than 4 characters';
     }
-  
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!emailRegex.test(formData.email)) {
       tempErrors.email = 'Email must be a valid Gmail address (e.g., example@gmail.com)';
     }
-  
+
     if (formData.message.length < 10) {
       tempErrors.message = 'Message must be at least 10 characters';
     }
-  
+
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
-  
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,9 +49,14 @@ const ContactForm = () => {
     }
   };
 
+  // Function to navigate to the table page
+  const showTablePage = () => {
+    navigate('/table');
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: -20 }} // Animate from the top
+      initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className="max-w-md mx-auto p-4 my-8"
@@ -61,7 +64,7 @@ const ContactForm = () => {
       <motion.form
         onSubmit={onSubmit}
         className="border border-gray-800 p-12 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-opacity-10 hover:shadow-slate-800"
-        initial={{ opacity: 0, y: -30 }} // Animate from the top
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
       >
@@ -99,11 +102,7 @@ const ContactForm = () => {
             placeholder="Enter your email"
             className="border border-gray-600 bg-gray-800 text-white p-2 rounded w-full focus:outline-none focus:ring-1 focus:ring-slate-500 placeholder:text-gray-500"
           />
-          <ValidationError 
-            prefix="Email" 
-            field="email"
-            errors={state.errors}
-          />
+          <ValidationError prefix="Email" field="email" errors={state.errors} />
           {errors.email && <span className="text-red-500 text-xs">{errors.email}</span>}
         </motion.div>
 
@@ -122,11 +121,7 @@ const ContactForm = () => {
             placeholder="Enter your message"
             className="border border-gray-600 bg-gray-800 text-white p-2 rounded w-full focus:outline-none focus:ring-1 focus:ring-slate-500 placeholder:text-gray-500"
           />
-          <ValidationError 
-            prefix="Message" 
-            field="message"
-            errors={state.errors}
-          />
+          <ValidationError prefix="Message" field="message" errors={state.errors} />
           {errors.message && <span className="text-red-500 text-xs">{errors.message}</span>}
         </motion.div>
 
@@ -143,6 +138,16 @@ const ContactForm = () => {
 
         {state.succeeded && <p className="text-slate-500">Thanks for your message!</p>}
       </motion.form>
+
+      {/* Button to navigate to the table page */}
+      <div className="mt-8 text-center">
+        <button
+          onClick={showTablePage}
+          className="text-blue-500 underline hover:text-blue-400 focus:outline-none"
+        >
+          Show Table
+        </button>
+      </div>
     </motion.div>
   );
 };

@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import ContactForm from './components/ContactForm';
+import TableComponent from './components/TableComponent';
+
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactForm />} />
+          <Route path="/table" element={<TableComponent />} />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
         <Footer />
       </div>
