@@ -16,22 +16,24 @@ const ContactForm = () => {
     let tempErrors = {};
     
     // Username (name field) validation
-    if (formData.name.length < 5) {  // Username must be greater than 4 characters
+    if (formData.name.length < 5) {
       tempErrors.name = 'Name must be more than 4 characters';
     }
   
-    const emailRegex = /^[^\s@]+@gmail\.com$/;
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!emailRegex.test(formData.email)) {
       tempErrors.email = 'Email must be a valid Gmail address (e.g., example@gmail.com)';
     }
   
-    if (formData.message.length < 10) { // Message must be at least 10 characters
+    if (formData.message.length < 10) {
       tempErrors.message = 'Message must be at least 10 characters';
     }
   
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
+  
   
 
   const handleChange = (e) => {
