@@ -49,7 +49,7 @@ const ContactForm = () => {
     }
   };
 
-  // Function to navigate to the table page
+  
   const showTablePage = () => {
     navigate('/table');
   };
