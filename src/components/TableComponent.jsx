@@ -1,6 +1,6 @@
 // src/components/TableComponent.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const TableComponent = () => {
   const [data, setData] = useState([]); // State to store fetched data
@@ -11,30 +11,35 @@ const TableComponent = () => {
 
   // Fetch data from an API
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchCustomData() {
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com'); // Fetch data from the API
-        if (!response.ok) {
-          throw new Error('Failed to fetch submissions');
-        }
-        const result = await response.json();
-
-        // Map the result to the required format
-        const formattedData = result.map(item => ({
-          id: item.id, 
-          name: item.name,
-          email: item.email, 
-          message: item.message, 
-          timestamp: item.timestamp || 'No Timestamp' 
-        }));
-
-        setData(formattedData); // Set the transformed data to the state
-      } catch (error) {
-        setError('Error fetching submissions. Please try again later.');
-        console.error('Error fetching data:', error);
+        const usersResponse = await fetch('https://jsonplaceholder.typicode.com/users');
+        if (!usersResponse.ok) throw new Error('Failed to fetch users');
+        const users = await usersResponse.json();
+    
+        const commentsResponse = await fetch('https://jsonplaceholder.typicode.com/comments');
+        if (!commentsResponse.ok) throw new Error('Failed to fetch comments');
+        const comments = await commentsResponse.json();
+    
+        // Combine data
+        const combinedData = users.flatMap(user => {
+          const userComments = comments.filter(comment => comment.postId === user.id);
+          return userComments.map(comment => ({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            msg: comment.body,
+            timestamp: new Date().toISOString() // Adjust this as needed
+          }));
+        });
+    
+        setData(combinedData); // Set the combined data to state
+      } catch (err) {
+        setError(err.message); // Set error message
       }
-    };
-    fetchData();
+    }
+    
+    fetchCustomData();
   }, []);
 
   // Pagination calculations
@@ -78,7 +83,7 @@ const TableComponent = () => {
                 <td className="px-4 py-2">{row.id}</td>
                 <td className="px-4 py-2">{row.name}</td>
                 <td className="px-4 py-2">{row.email}</td>
-                <td className="px-4 py-2">{row.message}</td>
+                <td className="px-4 py-2">{row.msg}</td> {/* Updated to match data structure */}
                 <td className="px-4 py-2">{row.timestamp}</td> 
               </tr>
             ))}
