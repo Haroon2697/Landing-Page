@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useForm, ValidationError } from '@formspree/react';
 import { useNavigate } from 'react-router-dom';
 
 const ContactForm = () => {
-  const [state, handleSubmit] = useForm("mwpegena");
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,24 +10,21 @@ const ContactForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate(); // Hook to navigate between routes
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const validate = () => {
     let tempErrors = {};
-
     if (formData.name.length < 5) {
       tempErrors.name = 'Name must be more than 4 characters';
     }
-
     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!emailRegex.test(formData.email)) {
       tempErrors.email = 'Email must be a valid Gmail address (e.g., example@gmail.com)';
     }
-
     if (formData.message.length < 10) {
       tempErrors.message = 'Message must be at least 10 characters';
     }
-
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -42,16 +37,35 @@ const ContactForm = () => {
     });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (validate() && state.succeeded === false) {
-      handleSubmit(e);
-    }
-  };
+    if (validate()) {
+      try {
+        const response = await fetch('http://localhost:3002/api/addcontact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
 
-  
-  const showTablePage = () => {
-    navigate('/table');
+        if (response.ok) {
+          console.log('Form data successfully submitted');
+          setIsSubmitted(true);
+          
+          // Reset form fields
+          setFormData({
+            name: '',
+            email: '',
+            message: ''
+          });
+        } else {
+          console.error('Failed to submit form data');
+        }
+      } catch (error) {
+        console.error('Error submitting form data:', error);
+      }
+    }
   };
 
   return (
@@ -68,12 +82,8 @@ const ContactForm = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
       >
-        <motion.div
-          className="mb-4"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        {/* Form fields */}
+        <motion.div className="mb-4">
           <label className="block text-sm font-medium mb-1 text-white">Name:</label>
           <input
             type="text"
@@ -85,16 +95,9 @@ const ContactForm = () => {
           />
           {errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
         </motion.div>
-
-        <motion.div
-          className="mb-4"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
+        <motion.div className="mb-4">
           <label className="block text-sm font-medium mb-1 text-white">Email:</label>
           <input
-            id="email"
             type="email"
             name="email"
             value={formData.email}
@@ -102,47 +105,33 @@ const ContactForm = () => {
             placeholder="Enter your email"
             className="border border-gray-600 bg-gray-800 text-white p-2 rounded w-full focus:outline-none focus:ring-1 focus:ring-slate-500 placeholder:text-gray-500"
           />
-          <ValidationError prefix="Email" field="email" errors={state.errors} />
           {errors.email && <span className="text-red-500 text-xs">{errors.email}</span>}
         </motion.div>
-
-        <motion.div
-          className="mb-4"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <motion.div className="mb-4">
           <label className="block text-sm font-medium mb-1 text-white">Message:</label>
           <textarea
-            id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
             placeholder="Enter your message"
             className="border border-gray-600 bg-gray-800 text-white p-2 rounded w-full focus:outline-none focus:ring-1 focus:ring-slate-500 placeholder:text-gray-500"
           />
-          <ValidationError prefix="Message" field="message" errors={state.errors} />
           {errors.message && <span className="text-red-500 text-xs">{errors.message}</span>}
         </motion.div>
-
         <motion.button
           type="submit"
-          disabled={state.submitting}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-          transition={{ duration: 0.3 }}
+          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-400 focus:ring-1 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
         >
           Submit
         </motion.button>
-
-        {state.succeeded && <p className="text-slate-500">Thanks for your message!</p>}
+        
+           {/* Display message after submission */}
+      {isSubmitted && <p className="text-slate-500">Thanks for your message!</p>}
       </motion.form>
 
-      {/* Button to navigate to the table page */}
       <div className="mt-8 text-center">
         <button
-          onClick={showTablePage}
+          onClick={() => navigate('/table')}
           className="text-blue-500 underline hover:text-blue-400 focus:outline-none"
         >
           Show Table
